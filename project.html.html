@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel House - Explore the World</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f9f9f9;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle input {
+            display: none;
+        }
+
+        .theme-toggle label {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            background-color:#ff4500;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+
+        }
+
+        .theme-toggle label::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle input:checked + label {
+            background-color: #ff7f50;
+        }
+
+        .theme-toggle input:checked + label::after {
+            transform: translateX(30px);
+        }
+
+        .theme-text {
+            color: #333;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        body.dark-mode .theme-text {
+            color: #f9f9f9;
+        }
+
+        /* Header Section */
+        .afghan {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(../merza2.jpg) center/cover;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Updated Search Section */
+        .search-section {
+            position: relative;
+            margin-top: 2rem;
+            height: auto;
+            width: 100%;
+            padding: 0 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .Search-2 {
+            width: 100%;
+            max-width: 600px;
+            height: 60px;
+            border: 2px solid orangered;
+            text-transform: uppercase;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+
+        body.dark-mode .Search-2 {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: #ff7f50;
+        }
+
+        .Searchbutton {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 150px;
+            height: 60px;
+            border-radius: 70px;
+            background: linear-gradient(45deg, #ff7f50, #ff4500);
+            color: white;
+            text-transform: uppercase;
+            font-weight: 1000;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .Searchbutton:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        li {
+            color: white;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        li:hover {
+            color: #ff7f50;
+        }
+
+        .Sign-section, .Login-section {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .Login-section{
+            padding: 1.0rem 1.5rem;
+
+        }
+
+        .Sign-section:hover, .Login-section:hover {
+            background: white;
+            color: #ff7f50;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .body-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .body-section2 h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .text-part {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #ddd;
+        }
+
+        .button-part {
+            background: linear-gradient(45deg, #ff7f50, #ff4500);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 2rem;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .button-part:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Search Filters */
+        #box1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            margin: 2rem auto;
+            border-radius: 1rem;
+            background: url(../cam-dicecca-QyfRofj7ePg-unsplash.jpg) center/cover;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-item {
+            background: rgba(255,255,255,0.9);
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        body.dark-mode .search-item {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        /* Destinations Section */
+        .footer-part {
+            padding: 4rem 2rem;
+        }
+
+        .img-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .image-card {
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .img1, .img2, .img3, .img4 {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 25% 10%;
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.5rem;
+        }
+
+        /* Special Offers */
+        .zome {
+            padding: 4rem 2rem;
+            background: #fff;
+        }
+
+        body.dark-mode .zome {
+            background: #333;
+        }
+
+        .img-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .offer-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        body.dark-mode .offer-card {
+            background: #444;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .light {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50% 20% / 10% 40%;
+        }
+
+        .price {
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff7f50;
+        }
+
+        /* Why Hiking Section */
+        .hiking {
+            padding: 4rem 2rem;
+            background: #f5f5f5;
+        }
+
+        body.dark-mode .hiking {
+            background: #444;
+        }
+
+        .why {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .montian {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .feature-card {
+            background: #444;
+        }
+
+        .mountain {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        body.dark-mode footer {
+            background: #222;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section h3 {
+            color: #ff7f50;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin: 0.5rem 0;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff7f50;
+        }
+
+        .made-by {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            text-transform: uppercase;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .search-section {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0 1rem;
+            }
+
+            .Search-2 {
+                width: 100%;
+                font-size: 0.9rem;
+            }
+
+            .Searchbutton {
+                width: 100%;
+                height: 50px;
+                font-size: 0.9rem;
+            }
+
+            .afghan {
+                padding: 1rem;
+            }
+
+            nav ul {
+                gap: 0.5rem;
+            }
+
+            li {
+                font-size: 1rem;
+            }
+
+            .body-section2 h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .Search-2 {
+                height: 50px;
+                padding: 10px 20px;
+            }
+
+            .Searchbutton {
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle">
+        <span class="theme-text">Light</span>
+        <input type="checkbox" id="theme-toggle">
+        <label for="theme-toggle"></label>
+        <span class="theme-text">Dark</span>
+    </div>
+
+    <div class="afghan">
+        <header>
+            <nav>
+                <ul class="khan">
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Contact</li>
+                    <li>Resources</li>
+                    <li>Blog</li>
+                    <a href="../the proect of the travel of agency/login2.html">
+                        <button class="Login-section">Login</button>
+                    </a>
+                    <a href="../Travel Agency/signup.html.html">
+                        <div class="Sign-section">Sign up</div>
+                    </a>
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="body-section">
+            <div class="body-section2">
+                <h1>Plan your Trip with Travel House</h1>
+                <p class="text-part">The best travel experience respectful of the environment</p>
+                <a href="../Travel Agency/clock.html">
+                <button class="button-part">Explore</button></a>
+            </div>
+        </div>
+
+        <div class="search-section">
+            <input class="Search-2" type="text" placeholder="Enter your favorite place">
+            <div class="Searchbutton">Search</div>
+        </div>
+    </div>
+
+    <!-- Search Filters -->
+    <div id="box1">
+        <div class="search-item">
+            <h3>Location</h3>
+            <p>Kabul Afghanistan</p>
+        </div>
+        <div class="search-item">
+            <h3>Type</h3>
+            <p>15/Meters</p>
+        </div>
+        <div class="search-item">
+            <h3>Price Range</h3>
+            <p>$410-1100</p>
+        </div>
+        <div class="search-item">
+            <button class="button-part">Search</button>
+        </div>
+    </div>
+
+    <!-- Destinations Section -->
+    <div class="footer-part">
+        <h2>Popular Destinations</h2>
+        <div class="img-container">
+            <div class="image-card">
+                <img class="img1" src="../Travel Agency/the photos of the travel agency/img1 (1).jpg" alt="Destination">
+                <div class="image-caption">01 --- Grabowska . pexels</div>
+            </div>
+            <div class="image-card">
+                <img class="img2" src="../Travel Agency/the photos of the travel agency/img1 (4).jpg" alt="Destination">
+                <div class="image-caption">02 --- Grabowska . pexels</div>
+            </div>
+            <div class="image-card">
+                <img class="img3" src="../Travel Agency/the photos of the travel agency/img1 (6).jpg" alt="Destination">
+                <div class="image-caption">03 --- Grabowska . pexels</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Special Offers -->
+    <div class="zome">
+        <h2 class="offers section">Special Offers</h2>
+        <div class="img-section">
+            <div class="offer-card">
+                <img class="light" src="../Travel Agency/the photos of the travel agency/special1.jpg" alt="Special Offer">
+                <div class="price">$5,530 USD</div>
+            </div>
+            <div class="offer-card">
+                <img class="light" src="../Travel Agency/the photos of the travel agency/special2.jpg" alt="Special Offer">
+                <div class="price">$2,512 USD</div>
+            </div>
+            <div class="offer-card">
+                <img class="light" src="../Travel Agency/the photos of the travel agency/special3.jpg " alt="Special Offer">
+                <div class="price">$6,510 USD</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Hiking Section -->
+    <div class="hiking">
+        <h2 class="why">Why Hikings!</h2>
+        <div class="montian">
+            <div class="feature-card">
+                <img class="mountain" src="../Travel Agency/the photos of the travel agency/mountain.jpg" alt="Mountain">
+                <h3>100+ Mountains</h3>
+                <p>Official permission to climb hundreds of mountains worldwide</p>
+            </div>
+            <div class="feature-card">
+                <img class="mountain" src="../Travel Agency/the photos of the travel agency/hiking.jpg" alt="Hiking">
+                <h3>Professional Support</h3>
+                <p>Over 1,000 climbers monthly</p>
+            </div>
+            <div class="feature-card">
+                <img class="mountain" src="../Travel Agency/the photos of the travel agency/customer.jpg" alt="Customers">
+                <h3>Trusted Service</h3>
+                <p>20,000+ satisfied customers</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Information</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Explore</a></li>
+                    <li><a href="#">Travel</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Helpful Links</h3>
+                <ul>
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>+93 070 90 620</li>
+                    <li>info@travelhouse.com</li>
+                    <li>Kabul, Afghanistan</li>
+                </ul>
+            </div>
+        </div>
+        <div class="made-by">
+            Made by Mohammad Emran
+        </div>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const themeText = document.querySelectorAll('.theme-text');
+
+        toggle.addEventListener('change', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Update theme text
+            themeText.forEach(text => {
+                text.textContent = body.classList.contains('dark-mode') ? 'Dark' : 'Light';
+            });
+
+            // Save user preference
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+
+        // Check for saved preference
+        const savedTheme = localStorage.getItem('theme');
+        if(savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            toggle.checked = true;
+            themeText.forEach(text => {
+                text.textContent = 'Dark';
+            });
+        } else {
+            themeText.forEach(text => {
+                text.textContent = 'Light';
+            });
+        }
+    </script>
+</body>
+</html>

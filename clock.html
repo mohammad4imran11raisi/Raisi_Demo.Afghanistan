@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a;
+            background: url(../cam-dicecca-QyfRofj7ePg-unsplash.jpg);
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .clock-container {
+            background-color: #333;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .clock {
+            color: #fff;
+            font-size: 4em;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+        }
+
+        .time-segment {
+            background-color: #444;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 0 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .colon {
+            margin: 0 5px;
+            color: #ff7f50;
+        }
+
+        .ampm {
+            font-size: 0.5em;
+            margin-left: 10px;
+            align-self: flex-end;
+            color: #ff7f50;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="clock">
+            <span class="time-segment" id="hours">00</span>
+            <span class="colon">:</span>
+            <span class="time-segment" id="minutes">00</span>
+            <span class="colon">:</span>
+            <span class="time-segment" id="seconds">00</span>
+            <span class="ampm" id="ampm">AM</span>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            // Convert to 12-hour format
+            hours = hours % 12 || 12;
+            hours = hours.toString().padStart(2, '0');
+
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            document.getElementById('ampm').textContent = ampm;
+        }
+
+        // Update clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
